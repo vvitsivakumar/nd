@@ -1,7 +1,9 @@
-version: "3.2"
 services:
   faveo-apache:
-    image: vvitsivakumar/faveo_docker:apache84-1
+    build:
+      context: ./Dockerfile/apache
+      dockerfile: Dockerfile
+    image: faveo-apache:latest
     container_name: ${DOMAINNAME}-apache
     networks:
       faveo-network:
@@ -43,7 +45,10 @@ services:
           ipv4_address: 172.24.0.4
 
   faveo-supervisor:
-      image: vvitsivakumar/faveo_docker:supervisor84-1
+      build:
+        context: ./Dockerfile/supervisor
+        dockerfile: Dockerfile
+      image: faveo-supervisor:latest
       container_name: ${DOMAINNAME}-supervisor
       volumes:
         - ./${HOST_ROOT_DIR}/:/var/www/html/
@@ -53,7 +58,7 @@ services:
       depends_on:
         - faveo-redis
         - faveo-mysql
-#        - faveo-nats
+        
       networks:
         faveo-network:
           ipv4_address: 172.24.0.5

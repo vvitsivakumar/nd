@@ -48,8 +48,34 @@ sleep 0.05
 echo -e "$skyblue                                                                                                                    $reset"
                                                                                         
 
+usage() {
+    echo "Usage:"
+    echo "  ./faveo-run.sh -domainname <your domainname> -email <example@email.com> -license <faveo license code> -orderno <faveo order number> -ssl <A|B|C>"
+    echo ""
+    echo "Options:"
+    echo "  -domainname   Domain name fully propagated to this server's IP"
+    echo "  -email        Email used for SSL certificate registration/renewal"
+    echo "  -license      Faveo Network Discovery license code (from billing.faveohelpdesk.com)"
+    echo "  -orderno      Faveo Network Discovery order number (must not contain '#')"
+    echo "  -ssl          SSL option: A = Let's Encrypt, B = Self-Signed, C = Paid SSL"
+    echo "  -h, --help    Show this help message and exit"
+    echo ""
+    echo "Example:"
+    echo "  ./faveo-run.sh -domainname berserker.tk -email berserkertest@gmail.com -license 5H876********** -orderno 8123****** -ssl A"
+}
+
+for arg in "$@"; do
+    case "$arg" in
+        -h|--help|-help)
+            usage
+            exit 0
+            ;;
+    esac
+done
+
 if [[ $# -lt 8 ]]; then
     echo "Please run the script by passing all the required arguments."
+    usage
     exit 1;
 fi
 
@@ -257,7 +283,7 @@ BLUE='\033[0;34m'
 CYAN='\033[1;36m'
 NC='\033[0m'
 
-echo -e "${CYAN}Confirm the Entered Helpdesk details:${NC}"
+echo -e "${CYAN}Confirm the Entered Faveo Network Discovery details:${NC}"
 echo -e "${CYAN}-------------------------------------${NC}\n"
 
 echo -e "${YELLOW}Domain Name    :${NC} ${GREEN}$domainname${NC}"
@@ -299,14 +325,14 @@ case "$ssl_option" in
 esac
 
 echo -e "\n";
-echo "Downloading Faveo Helpdesk"
+echo "Downloading Faveo ND from billing.faveohelpdesk.com, please wait ..."
 
 curl https://billing.faveohelpdesk.com/download/faveo\?order_number\=$orderno\&serial_key\=$license --output faveo.zip
 
 if [[ $? -eq 0 ]]; then
     echo "Download Successfull";
 else
-    echo "Download Failed. Please check the order number, serial number of Helpdesk entered and your Internet connectivity."
+    echo "Download Failed. Please check the order number, serial number of Faveo Network Discovery entered and your Internet connectivity."
     exit 1;
 fi;
 
@@ -412,20 +438,20 @@ if [[ $? -eq 0 ]]; then
     echo "Please save the following credentials."
     echo "Database Hostname: faveo-mysql"
     echo "Mysql Database root password: $db_root_pw"
-    echo "Faveo Helpdesk DB name: $db_name"
-    echo "Faveo Helpdesk DB User: $db_user"
-    echo "Faveo Helpdesk DB Password: $db_user_pw"
+    echo "Faveo Network Discovery DB name: $db_name"
+    echo "Faveo Network Discovery DB User: $db_user"
+    echo "Faveo Network Discovery DB Password: $db_user_pw"
     echo -e "\n"
     echo "#########################################################################"
 ###################Credentials File Creation####################
-    echo "Faveo Helpdesk Docker Setup Credentials" > credentials.txt
+    echo "Faveo Network Discovery Docker Setup Credentials" > credentials.txt
     echo "----------------------------------------" >> credentials.txt
-    echo "Faveo Docker installed successfully. Visit https://$domainname from your browser." >> credentials.txt
+    echo "Faveo Network Discovery Docker installed successfully. Visit https://$domainname from your browser." >> credentials.txt
     echo "Database Hostname: faveo-mysql" >> credentials.txt
     echo "Mysql Database root password: $db_root_pw" >> credentials.txt
-    echo "Faveo Helpdesk DB name: $db_name" >> credentials.txt
-    echo "Faveo Helpdesk DB User: $db_user" >> credentials.txt
-    echo "Faveo Helpdesk DB Password: $db_user_pw" >> credentials.txt
+    echo "Faveo Network Discovery DB name: $db_name" >> credentials.txt
+    echo "Faveo Network Discovery DB User: $db_user" >> credentials.txt
+    echo "Faveo Network Discovery DB Password: $db_user_pw" >> credentials.txt
     echo -e "\n"
     echo "Credentials are saved in the file 'credentials.txt'."
 else

@@ -59,7 +59,15 @@ RUN apt-get install -y \
     php${PHP_VERSION}-ldap \
     php${PHP_VERSION}-gmp \
     php${PHP_VERSION}-redis \
-    php${PHP_VERSION}-memcache
+    php${PHP_VERSION}-memcached
+
+# Download and install ionCube Loader
+RUN extension_dir=$(php -i | grep ^extension_dir | awk '{print $3}') && \
+    curl -fsSL https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz -o ioncube_loaders.tar.gz && \
+    tar -xzf ioncube_loaders.tar.gz && \
+    mv ioncube/ioncube_loader_lin_${PHP_VERSION}.so "$extension_dir" && \
+    sed -i "2 a zend_extension=${extension_dir}/ioncube_loader_lin_${PHP_VERSION}.so" /etc/php/${PHP_VERSION}/cli/php.ini && \
+    rm -rf ioncube_loaders.tar.gz ioncube
 
 # Install Node.js
 RUN curl -fsSL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash - && \
