@@ -1,41 +1,26 @@
----
+
 # <b>Deploying Faveo Network Discovery on Docker</b>   <!-- omit in toc -->
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Docker_%28container_engine%29_logo.svg/440px-Docker_%28container_engine%29_logo.svg.png" alt="drawing" width="300"/>
+<img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4e/Docker_%28container_engine%29_logo.svg/960px-Docker_%28container_engine%29_logo.svg.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail" alt="drawing" width="300"/>
 
 ## <b>Faveo Network Discovery Docker</b>
 
-A pretty simplified Docker Compose workflow that sets up a network of containers for Faveo Helpdesk.
-
-All the Faveo Network Discovery editions are supported except the community edition.
+A pretty simplified Docker Compose workflow that sets up a network of containers for Faveo Network Discovery.
 
 ## <b>Usage</b>
-___
-
 To get started, make sure you have Docker and Docker-Compose installed on your system, and then clone the below Git-Hub repository with the below command.
 
 ```sh
 git clone https://github.com/ladybirdweb/faveo-helpdesk-docker-v2.git
 ```
-
 ---
 ```
-cd faveo-helpdesk-docker-v2
+cd faveo-helpdesk-docker-v2/faveo-nd-docker
 ```
 Next, navigate in your terminal to the directory you cloned this, and give the executable permissions to bash scripts.
-
-#### For all Faveo Editions (except community edition).
 
 ```sh
 chmod +x faveo-run.sh
 ```
-
-#### For Faveo Community Edition.
-
-```sh
-chmod +x faveo-community-run.sh
-```
----
-
 ### <b>Prerequisites To run the script:</b>
 
 1. A valid domain name fully propagated to your Server's IP.
@@ -45,13 +30,7 @@ chmod +x faveo-community-run.sh
 5. Operating Systems Ubuntu 20,22,24
 6. SSL Certificate (For Paid SSL Users), If you're using a paid SSL, have the SSL certificate files ready before installation.
 
----
-
 Complete the below steps to get the Containers up.
-
----
-
-#### <b>For all Faveo Editons (except community edition).</b>
 
 Run the script <code><b>faveo-run.sh</b></code> by passing the necessary arguments.
 
@@ -79,7 +58,7 @@ Usage:
 ```
 Example: It should look something like this.
 ```sh
- ./faveo-run.sh -domainname berserker.tk -email berserkertest@gmail.com -license 5H876********** -orderno 8123****** -ssl <A|B|C>
+ ./faveo-run.sh -domainname yourdomainname.com -email youremail@gmail.com -license 5H876********** -orderno 8123****** -ssl <A|B|C>
 ```
 ---
 

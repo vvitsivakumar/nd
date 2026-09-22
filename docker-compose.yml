@@ -73,4 +73,3 @@ networks:
     faveo-network:
       external:
         name: ${DOMAINNAME}-faveo
-
