@@ -61,7 +61,7 @@ usage() {
     echo "  -h, --help    Show this help message and exit"
     echo ""
     echo "Example:"
-    echo "  ./faveo-run.sh -domainname berserker.tk -email berserkertest@gmail.com -license 5H876********** -orderno 8123****** -ssl A"
+    echo "  ./faveo-run.sh -domainname yourdomainname.com -email youremail@gmail.com -license 5H876********** -orderno 8123****** -ssl A"
 }
 
 for arg in "$@"; do
