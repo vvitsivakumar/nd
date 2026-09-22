@@ -9,6 +9,8 @@ ENV TZ=Asia/Kolkata \
 ENV PHP_VERSION=8.4 \
     NODE_VERSION=22
 
+### IMPORTANT When you chage the PHP VERSION, make sure to change the ioncube loader version in the RUN command below as well.
+
 # Update package lists and install initial packages
 RUN apt-get update && \
     apt install -y mysql-client && \
@@ -21,6 +23,11 @@ RUN apt-get update && \
     curl \
     unzip \
     nano \
+    nmap \
+    arp-scan \
+    nbtscan \
+    avahi-utils \
+    net-tools \
     zip && \
     apt-get clean && \
     apt-get autoremove -y && \
@@ -59,7 +66,8 @@ RUN apt-get install -y \
     php${PHP_VERSION}-ldap \
     php${PHP_VERSION}-gmp \
     php${PHP_VERSION}-redis \
-    php${PHP_VERSION}-memcached
+    php${PHP_VERSION}-memcached \
+    php${PHP_VERSION}-snmp
 
 # Download and install ionCube Loader
 RUN extension_dir=$(php -i | grep ^extension_dir | awk '{print $3}') && \
@@ -75,7 +83,14 @@ RUN curl -fsSL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash - && \
 
 # Copy the entrypoint script into the container
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
-
+# Configure passwordless sudo for www-data
+RUN apt-get update && \
+    apt-get install -y sudo && \
+    echo "www-data ALL=(ALL) NOPASSWD: /usr/sbin/arp-scan, /usr/bin/nmap" > /etc/sudoers.d/www-data && \
+    chmod 0440 /etc/sudoers.d/www-data && \
+    visudo -cf /etc/sudoers.d/www-data && \
+    rm -rf /var/lib/apt/lists/* 
+    
 # Make the script executable
 RUN chmod +x /usr/local/bin/entrypoint.sh
 

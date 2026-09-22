@@ -23,6 +23,11 @@ RUN apt-get update && \
     curl \
     unzip \
     nano \
+    nmap \
+    arp-scan \
+    nbtscan \
+    avahi-utils \
+    net-tools \
     zip && \
     apt-get clean && \
     apt-get autoremove -y && \
@@ -61,7 +66,8 @@ RUN apt-get install -y \
     php${PHP_VERSION}-ldap \
     php${PHP_VERSION}-gmp \
     php${PHP_VERSION}-redis \
-    php${PHP_VERSION}-memcached 
+    php${PHP_VERSION}-memcached \
+    php${PHP_VERSION}-snmp
 
 # Update PHP configuration for all configurations
 RUN for config in fpm cli apache2; do \
@@ -99,6 +105,14 @@ RUN npm install --location=global --unsafe-perm puppeteer@^24.33.0
 
 # Install additional dependencies for Puppeteer
 RUN apt-get update && apt-get install -y --no-install-recommends chromium ca-certificates fonts-liberation libasound2t64 libatk-bridge2.0-0 libatk1.0-0 libc6 libcairo2 libcups2 libdbus-1-3 libexpat1 libfontconfig1 libgbm1 libgcc-s1 libgdk-pixbuf-2.0-0 libglib2.0-0 libgtk-3-0 libnspr4 libnss3 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxshmfence1 libxss1 libxtst6 xdg-utils wget && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Configure passwordless sudo for www-data
+RUN apt-get update && \
+    apt-get install -y sudo && \
+    echo "www-data ALL=(ALL) NOPASSWD: /usr/sbin/arp-scan, /usr/bin/nmap" > /etc/sudoers.d/www-data && \
+    chmod 0440 /etc/sudoers.d/www-data && \
+    visudo -cf /etc/sudoers.d/www-data && \
+    rm -rf /var/lib/apt/lists/*
 
 # Set the working directory and backup dir
 RUN mkdir -p /var/www/storage
