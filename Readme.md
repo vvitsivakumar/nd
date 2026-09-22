@@ -25,7 +25,7 @@ chmod +x faveo-run.sh
 
 1. A valid domain name fully propagated to your Server's IP.
 2. Sudo Privilege.
-3. Faveo ND license and Order number. (This can be obtained from <a href="https://billing.faveohelpdesk.com" target="_blank" rel="noopener">billing.faveohelpdesk.com</a>).<b> (This is not required for Community Edition)</b>
+3. Faveo ND license and Order number. (This can be obtained from <a href="https://billing.faveohelpdesk.com" target="_blank" rel="noopener">billing.faveohelpdesk.com</a>).
 4. Unreserved ports 80 and 443. (If it is reserved feel free to edit and change the ports of your choice in docker-copompose.yml)
 5. Operating Systems Ubuntu 20,22,24
 6. SSL Certificate (For Paid SSL Users), If you're using a paid SSL, have the SSL certificate files ready before installation.
